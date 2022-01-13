@@ -2,7 +2,7 @@
 {% block head_content %}
 {% endblock head_content %}
 {% block body_content %}
-    <p style="background:white;">version:1 "Ice Cat"</p>
+    <p class="version_info">version:1 "Ice Cat"</p>
 <!--     <div class="media_view" id="media_view"></div> -->
     {% if current_path != "/"  %}
             <a href="{{ back_button_path }}"><div class="back-button"><div class="arrow"></div></div></a>
@@ -31,6 +31,14 @@
                         <input type="hidden" value="shell_request" name="request">
                     </form>
             </div>
+            <div class="aaa">
+                    <form action="/" method="POST" enctype= "multipart/form-data">
+                        <input type="text" placeholder="folder name" name="dirname">
+                        <input type="submit">
+                        <input type="hidden" value="create_folder_request" name="request">
+                        <input type="hidden" value="{{ current_path }}" name="path">
+                    </form>
+            </div>
         </div>
         <div class="upload-form" id="upload_form_container" style="display:none;">
                 <center>
@@ -45,14 +53,12 @@
                 </center>
         </div>
     {% endif %}
-    <div class="url-mon">
         <form action="/" method="POST" encrypt="multipart/form-data">
-            <input type="text" style="" value="{{ current_path }}" name="url">
+            <input type="text" style="" value="{{ current_path }}" name="url" class="url-mon">
             <input type="hidden" value="redierct_request" name="request">
 
         </form>
-    </div>
-
+    <div class="files_m">
     {% for i in files_data %}
             {% if i['type'] == "img"  or i["type"] == "video" %}
                 <a href="{{ i['path'] }}" target="_blank">
@@ -75,7 +81,7 @@
                     {% else %}
                     		<form action="/" method="POST" style="display: inline-block;width: 5vh;position: absolute;right: 13vh;">
                         		<button class="delete_button">
-                                		<p sytle="font-size: 2vh;">Delete</p>
+                                		<p>Delete</p>
                                 		<input type="hidden" value="{{ current_path }}" name="path">
                                 		<input type="hidden" value="{{ i['path'] }}" name="file_path">
                                         <input type="hidden" value="delete_request" name="request">
@@ -104,6 +110,7 @@
                 </center>
          </a>
     {% endfor %}
+    </div>
 
 
     <script src="{{ url_for('static' , filename='js/main.js') }}"></script>
