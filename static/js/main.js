@@ -18,3 +18,13 @@ function options_menu(){
         a.style.display = "none";
     }
 }
+
+// function delete_file(){
+//     var myDeleteForm = document.getElementById("delete_file_form")
+//     if (myDeleteForm.style.display === "none"){
+//         myDeleteForm.style.display = "block";
+//     }else{
+//         myDeleteForm.style.display = "none";
+//     }
+
+//}
