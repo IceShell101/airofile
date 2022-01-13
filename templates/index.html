@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% block head_content %}
+{% endblock head_content %}
+{% block body_content %}
+    <p class="version_info">version:1 "Ice Cat"</p>
+<!--     <div class="media_view" id="media_view"></div> -->
+    {% if current_path != "/"  %}
+            <a href="{{ back_button_path }}"><div class="back-button"><div class="arrow"></div></div></a>
+    {% else %}
+        <div class="back-button"><div class="home"></div></div>
+    {% endif %}
+    {% if usermode == "admin" %}
+        <div class="controls_menu_button" onclick="options_menu()"><p>options</p></div>
+        <div class="controls_menu" id="controls_menu" style="display:none">
+
+            <div class="upload-button" onclick="upload_form()">
+                <div class="title">Upload</div>
+            </div>
+
+            <div class="aaa">
+                    <form action="/" method="POST" enctype= "multipart/form-data">
+                        <input type="text" placeholder="URL" name="url_text">
+                        <input type="submit" value="open">
+                        <input type="hidden" value="openurl_request" name="request">
+                    </form>
+            </div>
+            <div class="aaa">
+                    <form action="/" method="POST" enctype= "multipart/form-data">
+                        <input type="text" placeholder="command" name="shell_command">
+                        <input type="submit" value="run">
+                        <input type="hidden" value="shell_request" name="request">
+                    </form>
+            </div>
+            <div class="aaa">
+                    <form action="/" method="POST" enctype= "multipart/form-data">
+                        <input type="text" placeholder="folder name" name="dirname">
+                        <input type="submit">
+                        <input type="hidden" value="create_folder_request" name="request">
+                        <input type="hidden" value="{{ current_path }}" name="path">
+                    </form>
+            </div>
+        </div>
+        <div class="upload-form" id="upload_form_container" style="display:none;">
+                <center>
+                <form method="POST" action="/" enctype= "multipart/form-data">
+
+                    <input type="file" name="file">
+                    <input type="hidden" value="upload_request" name="request">
+                    <input type="hidden" value="{{ current_path }}" name="path">
+                    <input type="submit" value="submit">
+
+                </form>
+                </center>
+        </div>
+    {% endif %}
+        <form action="/" method="POST" encrypt="multipart/form-data">
+            <input type="text" style="" value="{{ current_path }}" name="url" class="url-mon">
+            <input type="hidden" value="redierct_request" name="request">
+
+        </form>
+    <div class="files_m">
+    {% for i in files_data %}
+            {% if i['type'] == "img"  or i["type"] == "video" %}
+                <a href="{{ i['path'] }}" target="_blank">
+            {% else %}
+                <a href="{{ i['path'] }}">
+            {% endif %}
+                <div class="folder">
+                    <div class="file_name">{{ i['name'] }}</div>
+
+                {% if usermode == "admin" %}
+                    {% if i['type'] == "img" or i['type'] == "video" %}
+                            <form action="/" method="POST" style="display: inline-block;width: 5vh;position: absolute;right: 4vh;">
+                        		<button class="delete_button">
+                                		<p sytle="font-size: 2vh;">Delete</p>
+                                		<input type="hidden" value="{{ current_path }}" name="path">
+                                		<input type="hidden" value="{{ i['path'] }}" name="file_path">
+                                		<input type="hidden" value="delete_request" name="request">
+                        		</button>
+                    		</form>
+                    {% else %}
+                    		<form action="/" method="POST" style="display: inline-block;width: 5vh;position: absolute;right: 13vh;">
+                        		<button class="delete_button">
+                                		<p>Delete</p>
+                                		<input type="hidden" value="{{ current_path }}" name="path">
+                                		<input type="hidden" value="{{ i['path'] }}" name="file_path">
+                                        <input type="hidden" value="delete_request" name="request">
+                                </button>
+                            </form>
+                            <form action="/" method="POST" style="display: inline-block;width: 5vh;position: absolute;right: 4vh;">
+                                <button class="delete_button">
+                                        <p sytle="font-size: 2vh;">Delete Folder</p>
+                                        <input type="hidden" value="{{ current_path }}" name="path">
+                                        <input type="hidden" value="{{ i['path'] }}" name="file_path">
+                                        <input type="hidden" value="folder_delete_request" name="request">
+                                </button>
+                            </form>
+                        {% endif %}
+                {% endif %}
+
+
+            </div>
+
+                <center>
+                {% if i['type'] == "img" %}
+                    <img src="{{ i['path'] }}" class="media"></img>
+                {% elif i['type'] == "video" %}
+                    <video src="{{ i['path'] }}" muted autoplay class="media"></video>
+                {% endif %}
+                </center>
+         </a>
+    {% endfor %}
+    </div>
+
+
+    <script src="{{ url_for('static' , filename='js/main.js') }}"></script>
+{% endblock body_content %}
