@@ -7,7 +7,6 @@ import json
 libs_list = ["flask"]
 settings = json.load(open("settings.json" , "r"))["settings"]
 serving_type = settings["serving_type"]
-ip_addres= settings["ip_addres"]
 #background_color =  settings["background_color"]
 PATH = None
 MODE = "user"
@@ -56,8 +55,6 @@ try:
 
     app = Flask(__name__)
     app.config['UPLOAD_FOLDER'] = "uploads"
-    if serving_type== "2":
-        app.config['SERVER_NAME'] = f"{ip_addres}:{PORT}"
 
     @app.route("/" , methods=['GET' , 'POST'])
     def home():
@@ -76,6 +73,11 @@ try:
                     #return redirect("/")
                 #else:
                 return redirect(a)
+            if request.form.get("request") == "create_folder_request" and MODE == "admin":
+                file_d_path = request.form.get("path").strip("/")
+                dirname = request.form.get("dirname")
+                os.mkdir(f"/{file_d_path}/{dirname}")
+                
             if request.form.get("request") == "delete_request" and MODE == "admin":
                 file_d_path = request.form.get("file_path").lstrip("/")
                 file_copy = file_d_path.split("/")
@@ -137,7 +139,10 @@ try:
     @app.errorhandler(500)
     def error500(e):
         return "SERVER ERROR"
-    app.run(port=PORT , debug=True)
+    if serving_type== "2":
+        app.run(port=PORT , debug=True , host='0.0.0.0')
+    else:
+        app.run(port=PORT , debug=True)
 
 except ModuleNotFoundError:
     for i in libs_list:
