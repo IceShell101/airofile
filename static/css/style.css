@@ -5,10 +5,6 @@ body{
     padding:0;
     margin:0;
 }
-.version_info{
-    font-size: 2.5vh;
-    background:white;
-}
 .controls_menu_button{
     display:inline-block;
     background:black;
@@ -29,27 +25,29 @@ body{
 
 }
 .controls_menu{
-    background:white;
-    width:50%;
-    position:absolute;
-    border-radius:3vh;
-    overflow-x:hidden;
-    z-index:9999998;
+    background: white;
+    width: 81%;
+    position: absolute;
+    border-radius: 3vh;
+    overflow-y: hidden;
+    z-index: 1000;
+    height: 13%;
 }
 
 .controls_menu div{
-    background: #848282;
-    margin:5%;
-    overflow:hidden;
-    width:90%;
-    height:10vh;
-    border-radius:15vh;
+    background: #666;
+    margin: 5%;
+    overflow: hidden;
+    width: 14%;
+    height: 10vh;
+    border-radius: 15vh;
+    display: inline-block;
 }
 
 .upload-form{
     position:absolute;
     display:none;
-    z-index:9999999;
+    z-index: 9999999;
 }
 
 .upload-button{
