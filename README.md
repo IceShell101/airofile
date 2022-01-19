@@ -14,4 +14,4 @@ syntax:
 python3 App.py -p <path> -s <hosting_mode> -m <usermode>
 
  example:
- \npyhton3 App.py -p /home/bob/ -s 2 -m admin
+ pyhton3 App.py -p /home/bob/ -s 2 -m admin
