@@ -40,14 +40,16 @@ def home():
         if request.form.get("request") == "create_folder_request" and MODE == "admin":
             file_d_path = request.form.get("path").strip("/")
             dirname = request.form.get("dirname")
-            os.mkdir(f"/{file_d_path}/{dirname}")
+            os.mkdir(os.path.join(PATH ,file_d_path , dirname))
         if request.form.get("request") == "delete_request" and MODE == "admin":
+            if os.path.exists("Trash") != True:
+                os.mkdir("Trash")
             file_d_path = (request.form.get("file_path")).lstrip("/")
             file_copy = file_d_path.split("/")
             if os.path.isfile(os.path.join(PATH , file_d_path)):
                 shutil.copyfile(os.path.join(PATH , file_d_path) , os.path.join("Trash",file_copy[-1]))
                 os.remove(os.path.join(PATH , file_d_path))
-            else:os.rmdir(f"/{file_d_path}")
+            else:os.rmdir(os.path.join(PATH , file_d_path))
             return redirect(request.form.get("path"))
         elif request.form.get("request") == "upload_request" and MODE == "admin":
             def upload_m():
@@ -96,7 +98,7 @@ def error404(e):
 
 @app.errorhandler(500)
 def error500(e):return "error 500 , (SERVER ERROR)"
-if SERVING_TYPE == "2":app.run(port=PORT , host='0.0.0.0')
+if SERVING_TYPE == "2":app.run(port=PORT , host='0.0.0.0' , debug=True)
 else:app.run(port=PORT)
 
 
