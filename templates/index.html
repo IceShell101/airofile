@@ -52,7 +52,7 @@
                 </center>
         </div>
     {% endif %}
-        <p style="background:black;color:green;width:25%">{{ files_num  }}</p>
+        <p style="background:black;color:green;width:fit-content;padding: 1vh;font-size: 3vh;border-radius: 3vh;">files:{{ files_num['files']  }} -  folders:{{ files_num['folders']  }}</p>
         <form action="/" method="POST" encrypt="multipart/form-data">
             <input type="text" style="" value="{{ current_path }}" name="url" class="url-mon">
             <input type="hidden" value="redierct_request" name="request">
@@ -60,50 +60,33 @@
         </form>
     <div class="files_m">
     {% for i in files_data %}
-            {% if i['type'] == "img"  or i["type"] == "video" %}
-                <!-- <a href="{{ i['path'] }}" target="_blank">-->
+            {% if i['type'] == "img" %}
+                <a onclick="media_view(`{{ i['path'] }}` , `img`)" target="_blank" style="display:inline-block;width:100%;">
+            {% elif i["type"] == "video" %}  
+                <a onclick="media_view(`{{ i['path'] }}` , `video`)" target="_blank" style="display:inline-block;width:100%;">
             {% else %}
-                <a href="{{ i['path'] }}">
+                <a href="{{ i['path'] }}" style="display:inline-block;width:100%;">
             {% endif %}
                 <div class="folder">
                     <div class="file_name">{{ i['name'] }}</div>
-
-                {% if usermode == "admin" %}
-                    {% if i['type'] == "img" or i['type'] == "video" %}
-                            <form action="/" method="POST" style="display: inline-block;width: 5vh;position: absolute;right: 4vh;">
-                        		<button class="delete_button">
-                                		<p sytle="font-size: 2vh;">Delete</p>
-                                		<input type="hidden" value="{{ current_path }}" name="path">
-                                		<input type="hidden" value="{{ i['path'] }}" name="file_path">
-                                		<input type="hidden" value="delete_request" name="request">
-                        		</button>
-                    		</form>
-                    {% else %}
-                    		<form action="/" method="POST" style="display: inline-block;width: 5vh;position: absolute;right: 3vh;">
-                        		<button class="delete_button">
-                                		<p>Delete</p>
-                                		<input type="hidden" value="{{ current_path }}" name="path">
-                                		<input type="hidden" value="{{ i['path'] }}" name="file_path">
-                                        <input type="hidden" value="delete_request" name="request">
-                                </button>
-                            </form>
-                        {% endif %}
-                {% endif %}
-
-
             </div>
-
-                <center>
+            <center>
                 {% if i['type'] == "img" %}
-                    <img onload="scaleToFullScreen()"   src="{{ i['path'] }}" class="media"></img>
+                    <img src="{{ i['path'] }}" class="media"></img>
                 {% elif i['type'] == "video" %}
                     <video src="{{ i['path'] }}" muted autoplay loop class="media"></video>
                 {% endif %}
                 </center>
-         </a>
+            </a>
+             {% if usermode == "admin" %} 
+                <button onclick="delete_file(name=`{{ i['name'] }}` , file_path=`{{ i['path']  }}` , current_path=`{{ current_path }}`)" class="delete_button" style="display: inline-block;position: absolute;right: 4vh;">
+                      <p sytle="font-size: 2vh;">Delete</p>
+                </button>
+             {% endif %}
     {% endfor %}
     </div>
 
-
+    <div class="media_monitor" id="media_monitor" style="display:none;"></div>
+    <div class="delete_submit" id="delete_submit" style="display:none;"></div>
     <script src="{{ url_for('static' , filename='js/main.js') }}"></script>
 {% endblock body_content %}
