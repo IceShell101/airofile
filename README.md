@@ -10,8 +10,14 @@ usermodes:
 user (the default) only view files
 admin view files , delete files and folders , create folders , run commands , open urls in the default browser 
 
+
+pip install flask
+pip install multiprocess
+
 syntax:
 python3 App.py -p <path> -s <hosting_mode> -m <usermode>
 
 example:
 pyhton3 App.py -p /home/bob/ -s 2 -m admin
+  
+
