@@ -1,5 +1,6 @@
 import os, sys, shutil, webbrowser
 from flask import Flask , render_template , send_file , request , redirect
+print("make sure to install flask library!\nand all of it's files exists")
 SERVING_TYPE  = "1" 
 PATH = ""
 MODE = "user"
@@ -22,7 +23,7 @@ def file_type(string):
     return None
 app = Flask(__name__)
 @app.before_request
-def dir():
+def main():
         myurl = request.path
         if request.method == 'POST':
             if request.form.get("request") == "redierct_request":return redirect(request.form.get("url"))
@@ -57,7 +58,8 @@ def dir():
         try:
             try:
                 file_c = sorted(os.listdir(os.path.join(PATH,*(myurl.split('/'))))) if os.path.join(PATH,*(myurl.split('/'))) !="" else sorted(os.listdir(None))
-                files_data = [ {'name':f'{i}' , 'path':f'{myurl.rstrip("/")}/{i}' ,  'type':f'{file_type(i)}'}  for i in file_c]
+                file_path =  '/' if myurl.rstrip('/') != '' else ''
+                files_data = [ {'name':f'{i}' , 'path': myurl.rstrip("/")+file_path +i ,'type':f'{file_type(i)}'}  for i in file_c]
                 files_folders_count = {'files':[] , 'folders':[]}
                 for i in files_data:
                     if os.path.isfile(os.path.join(PATH ,i['path'].strip('/'))):
@@ -74,8 +76,8 @@ def dir():
                                        back_button_path=back_button_path , current_path=request.path , 
                                        usermode=MODE , files_num=files_folders_count )
             except NotADirectoryError:
-                if file_type(myurl) == 'txt':return send_file(os.path.join(PATH,myurl))
-                else:return send_file(os.path.join(PATH , *(myurl.split('/'))))
+                
+                return send_file(os.path.join(PATH , *(myurl.split('/'))))
         except FileNotFoundError:return render_template("error.html" , error_type="error 404" , error_explaination=f"""this happens becaues the requested url "{myurl}" does not exist or not accessable""")  , 404
 @app.errorhandler(500)
 def error500(e):return render_template("error.html" , error_type="error 500" , error_explaination="it happens when a server error occurs like a code error or may be the opration cant be done") , 500
