@@ -1,6 +1,6 @@
 import os, sys, shutil, webbrowser
 from flask import Flask , render_template , send_file , request , redirect
-print("make sure to install flask library!\nand all of it's files exists")
+
 SERVING_TYPE  = "1" 
 PATH = ""
 MODE = "user"
