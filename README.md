@@ -21,3 +21,5 @@ example:
 pyhton3 App.py -p /home/bob/ -s 2 -m admin
   
 
+![screenshot](https://github.com/IceShell101/airofile/blob/main/screenshots/Screenshot%20from%202022-02-13%2021-42-47.png)
+
