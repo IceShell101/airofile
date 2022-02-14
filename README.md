@@ -1,4 +1,4 @@
-# airofile
+# AiroFile
 
 host the selected folder on the localhost or the local network 
 
