@@ -1,6 +1,6 @@
 # AiroFile
 
-host the selected folder on the localhost or the local network 
+a flask script that hosts the selected directory
 
 # how it works
 
