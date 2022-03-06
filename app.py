@@ -1,16 +1,16 @@
 import os, sys, shutil, webbrowser
 from flask import Flask , render_template , send_file , request , redirect
-
-SERVING_TYPE  = "1" 
+print("make sure to install flask library!\nand all of it's files exists")
+HOST  = "127.0.0.1" 
 PATH = ""
 MODE = "user"
-PORT = "5001"
+PORT = "5005"
 user_input = sys.argv
-options_list = ["-p" , "-m" , "-s"]
+options_list = ["-p" , "-m" , "-h"]
 for i in range(0,int(len(user_input))):
     if user_input[i] in options_list[0]:PATH = user_input[i+1]
     if user_input[i] in options_list[1]:MODE = user_input[i+1]
-    if user_input[i] in options_list[2]:SERVING_TYPE = user_input[i+1]
+    if user_input[i] in options_list[2]:HOST = user_input[i+1]
 def file_type(string):
     dt = {
         "txt" : ['.txt' , '.py' , '.cpp' , '.c++'] ,
@@ -25,6 +25,7 @@ app = Flask(__name__)
 @app.before_request
 def main():
         myurl = request.path
+        #services of the app
         if request.method == 'POST':
             if request.form.get("request") == "redierct_request":return redirect(request.form.get("url"))
             if request.form.get("request") == "create_folder_request" and MODE == "admin":
@@ -52,8 +53,6 @@ def main():
                                 else: a.save(os.path.join(PATH,b,f"({count_c})"+a.filename))
                             else:a.save(os.path.join(PATH , b , a.filename))
                     upload_m()
-            if request.form.get("request") == "openurl_request" and MODE == "admin":webbrowser.open(request.form.get("url_text"))
-            if request.form.get("request") == "shell_request" and MODE == "admin":os.system(request.form.get("shell_command"))
             return redirect(request.form.get("path"))
         try:
             try:
@@ -81,5 +80,4 @@ def main():
         except FileNotFoundError:return render_template("error.html" , error_type="error 404" , error_explaination=f"""this happens becaues the requested url "{myurl}" does not exist or not accessable""")  , 404
 @app.errorhandler(500)
 def error500(e):return render_template("error.html" , error_type="error 500" , error_explaination="it happens when a server error occurs like a code error or may be the opration cant be done") , 500
-if SERVING_TYPE == "2":app.run(port=PORT , host='0.0.0.0')
-else:app.run(port=PORT)
+app.run(port=PORT , host=HOST)
