@@ -22,21 +22,7 @@
                 </form>
             </div>
 
-            <div class="aaa">
-                    <form action="/" method="POST" enctype= "multipart/form-data">
-                        <input type="text" placeholder="URL" name="url_text">
-                        <input type="submit" value="open">
-                        <input type="hidden" value="openurl_request" name="request">
-                    </form>
-            </div>
-            <div class="aaa">
-                    <form action="/" method="POST" enctype= "multipart/form-data">
-                        <input type="text" placeholder="command" name="shell_command">
-                        <input type="submit" value="run">
-                        <input type="hidden" value="shell_request" name="request">
-                    </form>
-            </div>
-            <div class="aaa">
+            <div class="create folder">
                     <form action="/" method="POST" enctype= "multipart/form-data">
                         <input type="text" placeholder="folder name" name="dirname">
                         <input type="submit">
@@ -50,7 +36,6 @@
         <form action="/" method="POST" encrypt="multipart/form-data">
             <input type="text" style="" value="{{ current_path }}" name="url" class="url-mon">
             <input type="hidden" value="redierct_request" name="request">
-
         </form>
     <div class="files_m">
     {% for i in files_data %}
