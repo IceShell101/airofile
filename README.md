@@ -2,7 +2,7 @@
 
 host the selected folder on the localhost or the local network 
 
-#how it works
+# how it works
 
 pip install flask
 pyhton3 App.py -p /home/bob -h 0.0.0.0 -m admin
